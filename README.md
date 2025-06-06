@@ -5,6 +5,7 @@ This is a simple application that allows users to save and manage their images a
 ## Features
 
 - User information input
+- User Information Update
 - Image upload support
 - Basic data listing
 
