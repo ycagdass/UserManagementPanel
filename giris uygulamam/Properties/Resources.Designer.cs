@@ -103,9 +103,29 @@ namespace giris_uygulamam.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap removeUser {
+            get {
+                object obj = ResourceManager.GetObject("removeUser", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap userAdd {
             get {
                 object obj = ResourceManager.GetObject("userAdd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap userUpdate {
+            get {
+                object obj = ResourceManager.GetObject("userUpdate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

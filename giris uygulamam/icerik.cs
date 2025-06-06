@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient; // SQL Server ile bağlantı için gerekli kütüphane
 using System.IO;
+using denemeVT;
 
 namespace giris_uygulamam
 {
@@ -40,9 +41,10 @@ namespace giris_uygulamam
 
         }
         public string SeciliKayıtNo;
+        public int SeciliKayıt;
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int SeciliKayıt = dataGridView1.SelectedCells[0].RowIndex;
+            SeciliKayıt = dataGridView1.SelectedCells[0].RowIndex;
             SeciliKayıtNo = dataGridView1.Rows[SeciliKayıt].Cells[0].Value.ToString();
 
             // TextBox'lara verileri ata
@@ -81,6 +83,63 @@ namespace giris_uygulamam
             ekle frm = new ekle();
             frm.Show(); // Yeni formu aç
             this.Visible = false; // Mevcut formu gizle
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int seciliKayıt = dataGridView1.SelectedCells[0].RowIndex;
+            SeciliKayıtNo = dataGridView1.Rows[seciliKayıt].Cells[0].Value.ToString();
+            DialogResult onay =MessageBox.Show(SeciliKayıtNo + " Numaralı Kayıt Silinsin Mi?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (onay == DialogResult.Yes)
+            {
+                SqlConnection baglanti = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Resources\\Database1.mdf;Integrated Security=True");
+                baglanti.Open();
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM icerik WHERE ID=@kimlik", baglanti);
+                cmd1.Parameters.AddWithValue("@kimlik", dataGridView1.Rows[seciliKayıt].Cells[0].Value); 
+                cmd1.ExecuteNonQuery(); // Sorguyu çalıştır 
+                MessageBox.Show("Kayıt Başarıyla Silindi", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                baglanti.Close(); // Bağlantıyı kapat
+                goster(); // Verileri tekrar göster
+                pictureBox1.Image = null; // Resmi temizle
+                textBox1.Clear();
+                textBox2.Clear();
+                textBox3.Clear();
+                textBox4.Clear();
+                textBox5.Clear();
+
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Önce seçili bir kayıt olup olmadığını kontrol et
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Lütfen güncellenecek bir kaydı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; // Güncelleme işlemine devam etmeden metodu sonlandır
+            }
+
+            // Seçili kayıt varsa, güncelleme formunu aç
+            update frm = new update();
+
+            // TextBox'lara verileri aktar
+            frm.textBox1.Text = textBox1.Text;
+            frm.textBox2.Text = textBox2.Text;
+            frm.textBox3.Text = textBox3.Text;
+            frm.textBox4.Text = textBox4.Text;
+            frm.textBox5.Text = textBox5.Text;
+
+            // Resmi aktar
+            frm.pictureBox1.Image = pictureBox1.Image;
+
+            // Duzenlenecek_ID'yi ayarla
+            Program.Duzenlenecek_ID = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+
+            // Güncelleme formunu göster ve mevcut formu kapat
+            frm.Show();
+            this.Close();
         }
     }
 }
