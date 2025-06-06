@@ -16,4 +16,4 @@ This is a simple application that allows users to save and manage their images a
 
 ## Status
 
-🚧 The project is still under development.
+✔️ A large part of the project is completed
